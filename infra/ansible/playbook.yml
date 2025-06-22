@@ -1,0 +1,39 @@
+- hosts: api
+  become: yes
+
+  tasks:
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: present
+        update_cache: yes
+
+    - name: Ensure Docker is running
+      service:
+        name: docker
+        state: started
+        enabled: true
+
+    - name: Copy API files 
+      copy:
+        src: ../../docker/
+        dest: /home/ubuntu/mlops-projet/
+        mode: 0755
+
+    - name: Build and run Docker container (mode local, à adapter si image sur DockerHub)
+      shell: |
+        cd /home/ubuntu/mlops-projet/
+        docker build -t sentiment-api .
+        docker stop sentiment-api || true
+        docker rm sentiment-api || true
+        docker run -d --name sentiment-api -p 8000:8000 sentiment-api
+
+    - name: Pull API image from Docker Hub
+      shell: docker pull modderrr/sentiment-api:latest
+
+    - name: Run API Docker container
+      shell: |
+        docker stop sentiment-api || true
+        docker rm sentiment-api || true
+        docker run -d --name sentiment-api -p 8000:8000 modderrr/sentiment-api:latest
+
