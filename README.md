@@ -15,28 +15,8 @@
 
 ## 🗺️ **Architecture générale**
 
-+----------------------+
-|   Dataset (IMDB)     |
-+----------------------+
-           |
-           | (train.py / MLflow Tracking)
-           v
-+-------------------------------+
-|  Modèle entraîné & exporté    |
-+-------------------------------+
-           |
-           |     (Docker)
-           v
-+-------------------------------+
-| API REST (FastAPI, prédiction)|
-+-------------------------------+
-           |
-           | (Docker sur EC2 – Ansible)
-           v
-+-------------------------------------+
-| Utilisateurs finaux                 |
-|   (Swagger UI / endpoint /predict)  |
-+-------------------------------------+
+![Déploiement Ansible](captures/sc5.png)
+
 
 ---
 
