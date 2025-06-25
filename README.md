@@ -13,6 +13,31 @@
 - **Automatiser le déploiement sur AWS (Terraform, Ansible, EC2).**
 - **Assurer la reproductibilité complète pour l’évaluateur.**
 
+## 🗺️ **Architecture générale**
+
++----------------------+
+|   Dataset (IMDB)     |
++----------------------+
+           |
+           | (train.py / MLflow Tracking)
+           v
++-------------------------------+
+|  Modèle entraîné & exporté    |
++-------------------------------+
+           |
+           |     (Docker)
+           v
++-------------------------------+
+| API REST (FastAPI, prédiction)|
++-------------------------------+
+           |
+           | (Docker sur EC2 – Ansible)
+           v
++-------------------------------------+
+| Utilisateurs finaux                 |
+|   (Swagger UI / endpoint /predict)  |
++-------------------------------------+
+
 ---
 
 ## 2️⃣ Stack Technique
@@ -32,26 +57,7 @@
 
 ## 3️⃣ Structure du Répertoire
 
-mlops-projet/
-│
-├── api.py # API FastAPI
-├── train.py # Script d'entraînement + MLflow
-├── IMDB Dataset.csv # Dataset
-├── Dockerfile # Build image API
-├── requirements.txt # Dépendances Python
-├── exported_model/ # Modèle exporté (si besoin)
-├── mlruns/ # Dossier MLflow runs
-│
-├── infra/
-│ ├── terraform/
-│ │ ├── main.tf, provider.tf, instances.tf, variables.tf
-│ ├── ansible/
-│ │ ├── playbook.yml, hosts.ini
-│
-└── README.md
-
-
----
+![Déploiement Ansible](captures/sc0.png)
 
 ## 4️⃣ Utilisation
 
